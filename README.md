@@ -5,7 +5,9 @@
 [![NPM](https://img.shields.io/npm/v/web3-hooks.svg)](https://www.npmjs.com/package/web3-hooks) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 **This package still need heavy testing.**
+
 **It comes actually in an experimental version.**
+
 **Only works with Metamask actually**
 
 ## Install
@@ -45,7 +47,9 @@ const App = () => {
 ## Features
 
 Real time accounts and networks change tracking
+
 Real time ether balance tracking
+
 Simplified use of contract with `useContract` hook
 
 ## License
