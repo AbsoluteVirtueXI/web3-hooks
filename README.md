@@ -44,7 +44,7 @@ const App = () => {
 
 ## Features
 
-Real time account and network changed tracking
+Real time accounts and networks change tracking
 Real time ether balance tracking
 Simplified use of contract with `useContract` hook
 
