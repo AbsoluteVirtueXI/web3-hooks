@@ -25,14 +25,14 @@ const App = () => {
   const [web3State, login] = useContext(Web3Context)
   return (
     <>
-      <p>Web3: {web3State.is_web3 ? 'injected' : 'no-injected'}</p>
-      <p>Network id: {web3State.chain_id}</p>
-      <p>Network name: {web3State.network_name}</p>
-      <p>MetaMask installed: {web3State.is_metamask ? 'yes' : 'no'}</p>
-      <p>logged: {web3State.is_logged ? 'yes' : 'no'}</p>
+      <p>Web3: {web3State.isWeb3 ? 'injected' : 'no-injected'}</p>
+      <p>Network id: {web3State.chainId}</p>
+      <p>Network name: {web3State.networkName}</p>
+      <p>MetaMask installed: {web3State.isMetaMask ? 'yes' : 'no'}</p>
+      <p>logged: {web3State.isLogged ? 'yes' : 'no'}</p>
       <p>account: {web3State.account}</p>
       <p>Balance: {web3State.balance}</p>
-      {!web3State.is_logged && (
+      {!web3State.isLogged && (
         <>
           <button onClick={login}>login</button>
         </>
