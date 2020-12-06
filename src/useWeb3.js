@@ -13,12 +13,12 @@ import {
 // web3 reducer
 const web3Reducer = (state, action) => {
   switch (action.type) {
-    case 'SET_is_web3':
-      return { ...state, is_web3: action.is_web3 }
-    case 'SET_is_metamask':
-      return { ...state, is_metamask: action.is_metamask }
-    case 'SET_is_logged':
-      return { ...state, is_logged: action.is_logged }
+    case 'SET_isWeb3':
+      return { ...state, isWeb3: action.isWeb3 }
+    case 'SET_isMetaMask':
+      return { ...state, isMetaMask: action.isMetaMask }
+    case 'SET_isLogged':
+      return { ...state, isLogged: action.isLogged }
     case 'SET_account':
       return { ...state, account: action.account }
     case 'SET_provider':
@@ -27,10 +27,10 @@ const web3Reducer = (state, action) => {
       return { ...state, signer: action.signer }
     case 'SET_balance':
       return { ...state, balance: action.balance }
-    case 'SET_chain_id':
-      return { ...state, chain_id: action.chain_id }
-    case 'SET_network_name':
-      return { ...state, network_name: action.network_name }
+    case 'SET_chainId':
+      return { ...state, chainId: action.chainId }
+    case 'SET_networkName':
+      return { ...state, networkName: action.networkName }
     default:
       throw new Error(`Unhandled action ${action.type} in web3Reducer`)
   }
@@ -38,13 +38,13 @@ const web3Reducer = (state, action) => {
 
 // web3 initial state
 const web3InitialState = {
-  is_web3: false,
-  is_logged: false,
-  is_metamask: false,
+  isWeb3: false,
+  isLogged: false,
+  isMetaMask: false,
   account: ethers.constants.AddressZero,
   balance: 0,
-  chain_id: 0,
-  network_name: 'unknown',
+  chainId: 0,
+  networkName: 'unknown',
   eth_balance: ethers.utils.parseEther('0'),
   signer: null,
   provider: null,
@@ -58,65 +58,65 @@ export const useWeb3 = (endpoint) => {
   // TODO: Check for login on other wallet
   const login = useCallback(async () => {
     try {
-      if (web3State.is_web3 && !web3State.is_logged) {
+      if (web3State.isWeb3 && !web3State.isLogged) {
         const accounts = await loginToMetaMask()
         web3Dispatch({ type: 'SET_account', account: accounts[0] })
-        web3Dispatch({ type: 'SET_is_logged', is_logged: true })
+        web3Dispatch({ type: 'SET_isLogged', isLogged: true })
       }
     } catch (e) {
       // user rejects the login attempt to MetaMask
       web3Dispatch({ type: 'SET_account', account: web3InitialState.account })
-      web3Dispatch({ type: 'SET_is_logged', is_logged: false })
+      web3Dispatch({ type: 'SET_isLogged', isLogged: false })
     }
-  }, [web3State.is_web3, web3State.is_logged])
+  }, [web3State.isWeb3, web3State.isLogged])
 
   // Check if web3 is injected
   // TODO: maybe can check on each render (case of user uninstalling metamasl)
   useEffect(() => {
-    console.log('hooks: is_web3 called')
-    web3Dispatch({ type: 'SET_is_web3', is_web3: isWeb3() })
+    console.log('hooks: isWeb3 called')
+    web3Dispatch({ type: 'SET_isWeb3', isWeb3: isWeb3() })
   }, [])
 
   // Listen for networks changes events
   useEffect(() => {
-    if (web3State.is_web3) {
+    if (web3State.isWeb3) {
       console.log('network listener called')
 
-      const onChainChanged = async (chain_id) => {
-        const _chain_id = parseInt(Number(chain_id), 10)
-        const _network_name = chainIdtoName(_chain_id)
-        console.log('network id changed:', _chain_id)
-        console.log('network name changed:', _network_name)
+      const onChainChanged = async (chainId) => {
+        const _chainId = parseInt(Number(chainId), 10)
+        const _networkName = chainIdtoName(_chainId)
+        console.log('network id changed:', _chainId)
+        console.log('network name changed:', _networkName)
         web3Dispatch({
-          type: 'SET_chain_id',
-          chain_id: _chain_id,
+          type: 'SET_chainId',
+          chainId: _chainId,
         })
         web3Dispatch({
-          type: 'SET_network_name',
-          network_name: _network_name,
+          type: 'SET_networkName',
+          networkName: _networkName,
         })
       }
       window.ethereum.on('chainChanged', onChainChanged)
       return () => window.ethereum.off('chainChanged', onChainChanged)
     }
-  }, [web3State.is_web3])
+  }, [web3State.isWeb3])
 
   // Check if metamask is installed
   useEffect(() => {
-    if (web3State.is_web3) {
-      web3Dispatch({ type: 'SET_is_metamask', is_metamask: isMetaMask() })
+    if (web3State.isWeb3) {
+      web3Dispatch({ type: 'SET_isMetaMask', isMetaMask: isMetaMask() })
     }
-  }, [web3State.is_web3])
+  }, [web3State.isWeb3])
 
   // check if logged in to metamask and get account
   useEffect(() => {
     ;(async () => {
-      if (web3State.is_web3) {
+      if (web3State.isWeb3) {
         try {
           const accounts = await getAccounts()
           if (accounts.length === 0) {
             // If not logged
-            web3Dispatch({ type: 'SET_is_logged', is_logged: false })
+            web3Dispatch({ type: 'SET_isLogged', isLogged: false })
             web3Dispatch({
               type: 'SET_account',
               account: web3InitialState.account,
@@ -124,18 +124,18 @@ export const useWeb3 = (endpoint) => {
           } else {
             // Already logged
             web3Dispatch({ type: 'SET_account', account: accounts[0] })
-            web3Dispatch({ type: 'SET_is_logged', is_logged: true })
+            web3Dispatch({ type: 'SET_isLogged', isLogged: true })
           }
         } catch (e) {
           throw e
         }
       }
     })()
-  }, [web3State.is_web3])
+  }, [web3State.isWeb3])
 
   // Listen for addresses change event
   useEffect(() => {
-    if (web3State.is_web3) {
+    if (web3State.isWeb3) {
       const onAccountsChanged = (accounts) => {
         console.log('account changed')
         web3Dispatch({ type: 'SET_account', account: accounts[0] })
@@ -143,7 +143,7 @@ export const useWeb3 = (endpoint) => {
       window.ethereum.on('accountsChanged', onAccountsChanged)
       return () => window.ethereum.off('accountsChanged', onAccountsChanged)
     }
-  }, [web3State.is_web3])
+  }, [web3State.isWeb3])
 
   // Connect to provider and signer
   useEffect(() => {
@@ -159,7 +159,7 @@ export const useWeb3 = (endpoint) => {
       })
       web3Dispatch({ type: 'SET_signer', signer: web3InitialState.signer })
     }
-  }, [web3State.account, web3State.chain_id])
+  }, [web3State.account, web3State.chainId])
 
   // Get ETH amount
   useEffect(() => {
@@ -208,16 +208,16 @@ export const useWeb3 = (endpoint) => {
     }
   }, [web3State.provider, web3State.account])
 
-  // GET netword_name and chain_id
+  // GET netword_name and chainId
   useEffect(() => {
     console.log('GET NETWORK CALLED')
     ;(async () => {
       if (web3State.provider) {
         const network = await web3State.provider.getNetwork()
-        web3Dispatch({ type: 'SET_chain_id', chain_id: network.chainId })
+        web3Dispatch({ type: 'SET_chainId', chainId: network.chainId })
         web3Dispatch({
-          type: 'SET_network_name',
-          network_name: chainIdtoName(network.chainId),
+          type: 'SET_networkName',
+          networkName: chainIdtoName(network.chainId),
         })
       }
     })()
