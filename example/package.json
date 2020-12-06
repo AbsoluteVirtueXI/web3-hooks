@@ -5,6 +5,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^1.0.2",
+    "@emotion/react": "^11.1.2",
+    "@emotion/styled": "^11.0.0",
+    "framer-motion": "^2.9.5",
     "prop-types": "^15.6.2",
     "react": "link:../node_modules/react",
     "react-dom": "^16.9.0",

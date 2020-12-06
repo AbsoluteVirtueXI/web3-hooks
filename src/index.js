@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useWeb3, Web3Context, Web3Provider } from 'useWeb3'
-import { useContract } from 'useContract'
+import { useWeb3, Web3Context, Web3Provider } from './useWeb3'
+import { useContract } from './useContract'
 
 const useMyHook = () => {
   let [{ counter }, setState] = React.useState({
